@@ -1,10 +1,5 @@
 <?php
 class Sinch_Tonerconfigurator_Model_Category {
-
-	public function showResults($catId){
-			$url = Mage::getModel("catalog/category")->load($catId)->getUrl();
-			Mage::app()->getFrontController()->getResponse()->setRedirect($url);
-	}
 	public function getTonerConfiguratorTitles(){
 		$titles = Mage::getStoreConfig( 'tonerconfigurator/options/titles' );
 		return $titles;
