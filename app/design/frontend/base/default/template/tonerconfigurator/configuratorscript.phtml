@@ -1,9 +1,9 @@
-<script src="<?php echo $this->getSkinUrl('js/tonerconfigurator/spin.js', array('_use_rewrite' => true)); ?>" type="text/javascript"></script>
+<script src="<?php echo $this->getSkinUrl('js/tonerconfigurator/spin.js', array('_use_rewrite' => true, '_secure' => Mage::app()->getFrontController()->getRequest()->isSecure())); ?>" type="text/javascript"></script>
 <script>
 window.maxtonerlevel = <?php echo $this->getMaxLevel() ?>;
 function changeCategory(level, val, configurator){
 if(!val.hasAttribute('value'))return;
-var reloadurl = '<?php echo $this->getUrl('tonerconfigurator/ajax/loadDropdown') ?>';
+var reloadurl = '<?php echo $this->getUrl('tonerconfigurator/ajax/loadDropdown', array('_secure' => Mage::app()->getFrontController()->getRequest()->isSecure())) ?>';
 if(val.value.indexOf('/') != -1){
     window.location.href = val.value;
 	loadMask(true, configurator);
@@ -61,7 +61,7 @@ onComplete: function(transport){
 	loadMask(false, configurator);
 },
 onTimeout: function() { console.log('Tonerconfigurator AJAX Timeout'); },
-onFailure: function() { console.log('Tonerconfigurator AJAX Failure') }
+onFailure: function() { console.log('Tonerconfigurator AJAX Failure'); }
  });
  }
 <?php if($this->getData('button_based')==1): ?>
