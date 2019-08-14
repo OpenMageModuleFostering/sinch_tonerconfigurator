@@ -6,6 +6,8 @@ if(val == null || val == "")return;
 var reloadurl = '<?php echo $this->getUrl('tonerconfigurator/ajax/loadDropdown') ?>';
 if(maxtonerlevel == level){
     window.location.href = val;
+	loadMask(true, configurator);
+	return;
 }
 loadMask(true, configurator);
 var inputs = configurator.getElementsByTagName('select');
@@ -21,18 +23,26 @@ new Ajax.Request(reloadurl, {
 method: 'get',
 parameters: '',
 onComplete: function(transport){
-	var newCategories = JSON.parse(transport.responseText);
-	if(!newCategories.success)alert("Somthing Went Wrong");
+	var newCategories = transport.responseJSON;
+	if(!newCategories || !newCategories.success)alert("Somthing Went Wrong");
 	for(var i = level; i < maxtonerlevel; i++){
 		var a = configurator.getElementsByTagName('select')[i];
-		a.innerHTML = "<option selected>" + a.getAttribute("data-tonertitle") + "</option>";
+		for(var j = 0; j < a.options.length; j++){
+			a.remove(j);
+		}
+		var o = document.createElement('option');
+		o.text = a.getAttribute('data-tonertitle'); //Implicitly sets label as well
+		o.selected = true;
+		a.add(o, null); //Null param is for pre-HTML5 and pre-gecko7 support
 	}
-	var newSelect = "";
+	var modifiedSelect = configurator.getElementsByTagName('select')[level];
 	for(var i = 0; i < newCategories.subcategories.length; i++){
 		var data = ((newCategories.subcategories[i].id == null) ? newCategories.subcategories[i].URL : newCategories.subcategories[i].id);
-		newSelect += "<option value=\"" + data + "\" >" + newCategories.subcategories[i].name + "</option>";
+		var o = document.createElement('option');
+		o.text = newCategories.subcategories[i].name;
+		o.value = data;
+		modifiedSelect.add(o, null);
 	}
-	configurator.getElementsByTagName('select')[level].innerHTML += newSelect;
 	var inputs = configurator.getElementsByTagName('select');
 	for (var i = 0; i < newLevel; i++) {
 		inputs[i].disabled = false;

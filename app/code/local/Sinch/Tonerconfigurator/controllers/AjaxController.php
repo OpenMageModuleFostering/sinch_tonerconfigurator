@@ -6,15 +6,15 @@ class Sinch_Tonerconfigurator_AjaxController extends Mage_Core_Controller_Front_
 		$catid = $this->getRequest()->getParam('catid', null);
 		$lastlevel = $this->getRequest()->getParam('lastlevel', 0);
 		if(!$catid){
-			$this->getResponse()->setBody("{ success: false, subcategories: [] }");
+			$this->getResponse()->setBody('{ "success": false, "subcategories": [] }');
 			return;
 		}
 		$category = Mage::getModel('catalog/category')->load($catid);
 		if(!$category->hasChildren()){
-			$this->getResponse()->setBody("{ success: false, subcategories: [] }");
+			$this->getResponse()->setBody('{ "success": false, "subcategories": [] }');
 			return;
 		}
-		$children = $category->getChildrenCategories();
+		$children = (Mage::getSingleton('tonerconfigurator/category')->isRootCategory($catid) ? Mage::getSingleton('tonerconfigurator/category')->getRootSubcatColl() : $category->getChildrenCategories());
 		$response = array();
 		$response['success'] = false;
 		$response['subcategories'] = array();

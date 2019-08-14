@@ -2,7 +2,7 @@
 <widgets>
     <tonerconfigurator_configurator type="tonerconfigurator/configurator">
         <name>StockInTheChannel - Toner Configurator</name>
-        <description type="desc">Adds the StockInTheChannel Toner Configurator - Coded By Nicka101</description>
+        <description type="desc">Adds the StockInTheChannel Toner Configurator - Coded By Sinch</description>
 		<parameters>
 			<title translate="label">
 				<label>Title</label>

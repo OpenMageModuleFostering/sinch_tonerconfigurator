@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Sinch_Tonerconfigurator>
-            <version>1.0.0</version>
+            <version>1.2.2</version>
         </Sinch_Tonerconfigurator>
     </modules>
 
@@ -16,13 +16,6 @@
                 </args>
             </tonerconfigurator>
         </routers>
-        <!--<layout>
-            <updates>
-                <tonerconfigurator>
-                    <file>tonerconfigurator.xml</file>
-                </tonerconfigurator>
-            </updates>
-        </layout>-->
     </frontend>
 
     <global>
@@ -35,11 +28,6 @@
             <tonerconfigurator>
                 <class>Sinch_Tonerconfigurator_Helper</class>
             </tonerconfigurator>
-            <catalog>
-                <rewrite>
-                    <category>Sinch_Tonerconfigurator_Helper_Category</category>
-                </rewrite>
-            </catalog>
         </helpers>
         <models>
             <tonerconfigurator>
