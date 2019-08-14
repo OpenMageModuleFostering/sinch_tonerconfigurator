@@ -2,10 +2,10 @@
 <script>
 window.maxtonerlevel = <?php echo $this->getMaxLevel() ?>;
 function changeCategory(level, val, configurator){
-if(val == null || val == "")return;
+if(!val.hasAttribute('value'))return;
 var reloadurl = '<?php echo $this->getUrl('tonerconfigurator/ajax/loadDropdown') ?>';
-if(maxtonerlevel == level){
-    window.location.href = val;
+if(val.value.indexOf('/') != -1){
+    window.location.href = val.value;
 	loadMask(true, configurator);
 	return;
 }
@@ -15,7 +15,7 @@ for (var i = 0; i < inputs.length; i++) {
         inputs[i].disabled = true;
 }
 var newLevel = level+1;
-reloadurl += 'catid/'+val;
+reloadurl += 'catid/'+val.value;
 if(newLevel == maxtonerlevel){
 	reloadurl += '/lastlevel/1';
 }
@@ -24,10 +24,13 @@ method: 'get',
 parameters: '',
 onComplete: function(transport){
 	var newCategories = transport.responseJSON;
-	if(!newCategories || !newCategories.success)alert("Somthing Went Wrong");
+	if(!newCategories || !newCategories.success){
+        console.log("Received an invalid or non-success response from the Tonerconfigurator AJAX request");
+        return;
+    }
 	for(var i = level; i < maxtonerlevel; i++){
 		var a = configurator.getElementsByTagName('select')[i];
-		for(var j = 0; j < a.options.length; j++){
+		for(var j = a.options.length - 1; j >= 0; j--){ //Remove backwards otherwise the indexes shift too fast/too slow depending on how you look at it
 			a.remove(j);
 		}
 		var o = document.createElement('option');
@@ -57,8 +60,8 @@ onComplete: function(transport){
 	<?php endif; ?>
 	loadMask(false, configurator);
 },
-onTimeout: function() { alert('Timeout!'); },
-onFailure: function() { alert('Something went wrong...') },
+onTimeout: function() { console.log('Tonerconfigurator AJAX Timeout'); },
+onFailure: function() { console.log('Tonerconfigurator AJAX Failure') }
  });
  }
 <?php if($this->getData('button_based')==1): ?>
@@ -112,7 +115,9 @@ Event.observe(window,"load", function(){
 		for(var j = 0; j < selects.length; j++){
 			selects[j].setAttribute("data-tonertitle", selects[j].options[0].text);
 		}
-		changeCategory(0, <?php echo $this->getRootCat(); ?>, configurators[i]);
+        var opt = document.createElement('option');
+        opt.setAttribute('value', <?php echo $this->getRootCat(); ?>);
+		changeCategory(0, opt, configurators[i]);
 	}
 });
 </script>
