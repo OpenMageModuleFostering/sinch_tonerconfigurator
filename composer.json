@@ -1,0 +1,16 @@
+{
+    "name": "OpenMageModuleFostering/Sinch_Tonerconfigurator",
+    "type": "magento-module",
+    "license": "OSL-v3",
+    "homepage": "",
+    "description": "Stockinthechannel.com's Toner Configurator",
+    "authors": [
+    {
+        "name": "stockinchannel",
+        "email": "support@stockinthechannel.com"
+    }
+],
+    "suggest": {
+        "magento-hackathon/magento-composer-installer": "*"
+    }
+}
